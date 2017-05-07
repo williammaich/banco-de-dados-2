@@ -1,4 +1,4 @@
-* 
+
   DROP SCHEMA IF EXISTS aula04_virus;
   CREATE SCHEMA aula04_virus;
   USE aula04_virus;
@@ -297,4 +297,55 @@ INNER JOIN autor ON publicacaoautor.idAutor = autor.id
 INNER JOIN publicacaovirus ON publicacao.id = publicacaovirus.idPublicacao
 INNER JOIN virus ON publicacaovirus.idVirus = virus.id;
 
---3)
+--3)Listar publicações de um específico autor;
+
+SELECT publicacao.id AS "publicacao id", contrato.id AS "contrato id", jornal.id AS "jornal id", publicacao.data AS "data",
+publicacao.assunto AS "assunto", publicacao.texto AS "texto", autor.nome AS "nome" 
+FROM publicacao 
+INNER JOIN contrato ON publicacao.id = contrato.id
+INNER JOIN jornal ON publicacao.id = jornal.id
+INNER JOIN publicacaoautor on publicacao.id = publicacaoautor.idPublicacao
+INNER JOIN autor ON publicacaoautor.idAutor = autor.id;
+
+--4) Listar as publicações associadas a um específico contrato de pesquisa;
+
+SELECT publicacao.id AS "publicacao id", contrato.id AS "contrato id", jornal.id AS "jornal id", publicacao.data AS "data",
+publicacao.assunto AS "assunto", publicacao.texto AS "texto", contrato.numero AS "numero", 
+contrato.dataInicio AS "data inicio", contrato.dataTermino AS "data termino", contrato.valor AS "valor"
+FROM publicacao 
+INNER JOIN contrato ON publicacao.id = contrato.id
+INNER JOIN jornal ON publicacao.id = jornal.id;
+
+--5) Crie pelo menos quatro triggers e justifique seu uso no banco.
+
+START TRANSACTION;
+
+
+
+CREATE TRIGGER tgr_deletaCont AFTER DELETE
+ON contrato
+FOR EACH ROW
+
+
+CREATE TRIGGER tgr_incluiCont AFTER INSERT
+ON contrato
+FOR EACH ROW
+
+
+CREATE TRIGGER tgr_deletaAutor AFTER DELETE
+ON autor
+FOR EACH ROW
+
+
+CREATE TRIGGER tgr_incluiAutor AFTER INSERT
+ON autor
+FOR EACH ROW
+
+CREATE TRIGGER tgr_incluiVirus BEFORE DELETE
+ON virus
+FOR EACH ROW
+
+
+INSERT INTO contrato VALUES(6, 211, '2017-03-02', '2017-13-31', 815548.15);
+
+COMMIT;
